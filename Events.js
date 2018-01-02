@@ -44,13 +44,13 @@
         }
     });
 
-    // event class [EventListener]
+    // `EventListener` constructor
     function EventListener(scope) {
         this._target = scope;
         this._eventCaches = {};
     };
 
-    // prototype
+    // `EventListener` prototype
     EventListener.prototype = {
         constructor: EventListener,
 
@@ -58,6 +58,7 @@
             cc.log("[EVENTS ERROR]: " + logText);
         },
 
+        // Get the array of all event names
         getEventNames: function () {
             var names = [];
             for (var key in this._eventCaches) {
@@ -66,6 +67,7 @@
             return names;
         },
 
+        // Binding event
         on: function (eventName, callback) {
             if (!eventName || typeof eventName !== "string") {
                 this.error("check your first parameter.");
@@ -82,6 +84,7 @@
             this._eventCaches[eventName] = callback;
         },
 
+        // Trigger binding event
         emit: function () {
             var eventName = arguments[0];
             if (!eventName || typeof eventName !== "string") {
@@ -97,12 +100,14 @@
             this._eventCaches[eventName].apply(this._target, params);
         },
 
+        // Trigger binding event is executed only once
         once: function () {
             this.emit.apply(this, arguments);
             var eventName = arguments[0];
             this._eventCaches[eventName] = null;
         },
 
+        // Remove binding events by event name
         remove: function (eventName) {
             if (!eventName || typeof eventName !== "string") {
                 this.error("The event [" + eventName + "] is not string.");
